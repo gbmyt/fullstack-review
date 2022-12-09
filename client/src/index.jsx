@@ -5,7 +5,9 @@ import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 
 const axios = require('axios');
+
 var getReposByUsername = require('../../helpers/github').getReposByUsername;
+// var save = require('../../database/index').save;
 
 class App extends React.Component {
   constructor(props) {
@@ -18,11 +20,16 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    axios.post('/repos', { responseStatus: '201 OK', data: getReposByUsername(term) })
+    axios.post('/repos', { data: getReposByUsername(term) })
       .then(result => {
+        // ==========================================================
+        // Issues trying to save fetched repos to database using 'database/index.js' save() here
+        // mongoose.connect is being imported w the function but cant be used in browser. See here: https://mongoosejs.com/docs/browser.html
+        // ==========================================================
+
+        // save(result.data);
         console.log('Search POST Result', result.data);
       });
-
   }
 
   render () {

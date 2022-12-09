@@ -3,7 +3,7 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 // Mongoose Repos Schema
 let repoSchema = mongoose.Schema({
-  // id: Number, (?)
+  _id: { type: Number, unique: true, required: true },
   name: String,
   full_name: String,
   owner: {
@@ -25,8 +25,8 @@ let repoSchema = mongoose.Schema({
     type: String,
     site_admin: Boolean
   },
-  private:	Boolean,
-  html_url: String
+  private: Boolean,
+  html_url: String,
   description: String,
   fork: Boolean,
   url: String,
@@ -66,9 +66,9 @@ let repoSchema = mongoose.Schema({
   labels_url: String,
   releases_url: String,
   deployments_url: String,
-  created_at: String, // Date? String in data.json
-  updated_at: String,  // Date?
-  pushed_at: String, // Date?
+  created_at: String,
+  updated_at: String,
+  pushed_at: String,
   git_url: String,
   ssh_url: String,
   clone_url: String,
@@ -93,10 +93,25 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+// This function should save a repo or repos to
+// the MongoDB
+let save = (/* TODO: userRepos*/) => {
+  // ==========================================================
+  // First pass implementation attempt -> see issue note about saving in client/src/index.jsx before uncommenting
+
+  // Commenting out until mongoose.connect() error is resolved
+  // ==========================================================
+  // let repos = new Repo(userRepos);
+
+  // repos.save()
+  //   .then(() => {
+  //   console.log('Repos were saved!');
+  // });
+
+  // ===== OR =====
+
+  // await Repo.create(/* options */);
+  // console.log(username + 'repos were saved!');
 }
 
 module.exports.save = save;
