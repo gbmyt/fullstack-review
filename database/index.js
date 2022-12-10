@@ -8,7 +8,7 @@ mongoose.connect('mongodb://localhost/fetcher');
 
 // Mongoose Repos Schema
 let repoSchema = mongoose.Schema({
-  _id: { type: Number, unique: true, required: true },
+  id: { type: Number, unique: true, required: true },
   name: String,
   full_name: String,
   owner: {
@@ -27,7 +27,7 @@ let repoSchema = mongoose.Schema({
     repos_url: String,
     events_url: String,
     received_events_url: String,
-    type: String,
+    type: { type: String},
     site_admin: Boolean
   },
   private: Boolean,
@@ -100,29 +100,19 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 // This function should save a repo or repos to
 // the MongoDB
-
-// await Repo.create(/* options */);
-// console.log(username + 'repos were saved!');
-// ==========================================================
-// First pass implementation attempt -> see issue note about saving in client/src/index.jsx before uncommenting
-
-// Commenting out until mongoose.connect() error is resolved
-// ==========================================================
 let save = (userRepos) => {
   let repos = userRepos.data;
-  console.log('inside save function');
-  console.log('repos', userRepos.data[0].id);
-  // console.log('repos', Object.keys(userRepos));
+
+  // console.log('repos', userRepos.data[0].id);
+  // console.log('repos', Object.keys(userRepos.data[0]));
 
   repos.forEach(repo => {
     let currentRepo = new Repo(repo);
-    // console.log('Current Repo', currentRepo);
     console.log('Current Repo ID #', repo.id);
     currentRepo.save();
   });
 
   console.log('done saving');
-  // console.log('Repos saved!');
 }
 
 module.exports.save = save;
