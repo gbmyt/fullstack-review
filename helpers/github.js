@@ -1,7 +1,7 @@
 const axios = require('axios');
 const config = require('../config.js');
 
-let getReposByUsername = (username) => {
+let getReposByUsername = (username, cb) => {
   let options = {
     url: `https://api.github.com/users`,
     headers: {
@@ -10,14 +10,16 @@ let getReposByUsername = (username) => {
     }
   };
 
-  axios.get(options.url + `/${username}/repos`, options) // ?
+  axios.get(options.url + `/${username}/repos`, options)
     .then(data => {
-      console.log('axios.get results', data);
+      console.log('getReposByUsername results retrieved');
+      // console.log('getReposByUsername results', data);
+      cb(data);
     })
     .catch(err => {
-      console.log('Axios Get Call Caught an Error! --> helpers/github.js');
-      throw err;
+      console.log('Axios Get Call Caught an Error! --> helpers/github.js', err);
     });
+
 }
 
 module.exports.getReposByUsername = getReposByUsername;

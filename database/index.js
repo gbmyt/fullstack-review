@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+// main().catch(err => console.log(err));
+
+// async function main() {
+//   await mongoose.connect('mongodb://localhost/fetcher');
+// }
 
 // Mongoose Repos Schema
 let repoSchema = mongoose.Schema({
@@ -95,23 +100,29 @@ let Repo = mongoose.model('Repo', repoSchema);
 
 // This function should save a repo or repos to
 // the MongoDB
-let save = (/* TODO: userRepos*/) => {
-  // ==========================================================
-  // First pass implementation attempt -> see issue note about saving in client/src/index.jsx before uncommenting
 
-  // Commenting out until mongoose.connect() error is resolved
-  // ==========================================================
-  // let repos = new Repo(userRepos);
+// await Repo.create(/* options */);
+// console.log(username + 'repos were saved!');
+// ==========================================================
+// First pass implementation attempt -> see issue note about saving in client/src/index.jsx before uncommenting
 
-  // repos.save()
-  //   .then(() => {
-  //   console.log('Repos were saved!');
-  // });
+// Commenting out until mongoose.connect() error is resolved
+// ==========================================================
+let save = (userRepos) => {
+  let repos = userRepos.data;
+  console.log('inside save function');
+  console.log('repos', userRepos.data[0].id);
+  // console.log('repos', Object.keys(userRepos));
 
-  // ===== OR =====
+  repos.forEach(repo => {
+    let currentRepo = new Repo(repo);
+    // console.log('Current Repo', currentRepo);
+    console.log('Current Repo ID #', repo.id);
+    currentRepo.save();
+  });
 
-  // await Repo.create(/* options */);
-  // console.log(username + 'repos were saved!');
+  console.log('done saving');
+  // console.log('Repos saved!');
 }
 
 module.exports.save = save;
