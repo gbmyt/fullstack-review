@@ -1,5 +1,4 @@
 import React from 'react';
-var getReposByUsername = require('../../../helpers/github').getReposByUsername;
 
 class Search extends React.Component {
   constructor(props) {
@@ -16,7 +15,7 @@ class Search extends React.Component {
   }
 
   search() {
-    this.props.onSearch(this.state.term, getReposByUsername);
+    this.props.onSearch(this.state.term);
   }
 
   render() {

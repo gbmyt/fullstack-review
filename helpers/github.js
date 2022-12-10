@@ -7,19 +7,17 @@ let getReposByUsername = (username, cb) => {
     headers: {
       'User-Agent': 'request',
       'Authorization': `token ${config.TOKEN}`
-    }
+    },
   };
 
   axios.get(options.url + `/${username}/repos`, options)
-    .then(data => {
-      console.log('getReposByUsername results retrieved');
-      // console.log('getReposByUsername results', data);
-      cb(data);
+    .then(response => {
+      console.log('got repos by username');
+      cb(response.data);
     })
     .catch(err => {
-      console.log('Axios Get Call Caught an Error! --> helpers/github.js', err);
+      console.log('helpers/github.js Caught an Error!', err);
     });
-
 }
 
 module.exports.getReposByUsername = getReposByUsername;

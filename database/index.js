@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
+
 // main().catch(err => console.log(err));
 
 // async function main() {
@@ -101,14 +102,14 @@ let Repo = mongoose.model('Repo', repoSchema);
 // This function should save a repo or repos to
 // the MongoDB
 let save = (userRepos) => {
-  let repos = userRepos.data;
+  let repos = userRepos;
 
-  // console.log('repos', userRepos.data[0].id);
-  // console.log('repos', Object.keys(userRepos.data[0]));
+  // console.log('repos', repos[0].id);
+  // console.log('repos', Object.keys(repos[0]));
 
   repos.forEach(repo => {
     let currentRepo = new Repo(repo);
-    console.log('Current Repo ID #', repo.id);
+    // console.log('Current Repo ID #', repo.id);
     currentRepo.save();
   });
 

@@ -1,7 +1,11 @@
 const express = require('express');
+let app = express();
+
 var getReposByUsername = require('../helpers/github').getReposByUsername;
 var save = require('../database/index').save;
-let app = express();
+
+// app.use(express.json()); // used more frequently, research this
+app.use(express.urlencoded({ extended: true }))
 
 // Set up static file service for files in the `client/dist` directory.
 // Webpack is configured to generate files in that directory and
@@ -11,26 +15,17 @@ app.use('/', express.static('client/dist'));
 // This route should take the github username provided
 // and get the repo information from the github API, then
 // save the repo information in the database
-app.post('/repos', async function (req, res) {
-  // console.log('Repos POST Req', req);
-  // console.log('Repos POST Res', res);
-
-  // var results = await getReposByUsername('hackreactor');
-  // console.log(results);
-  // save(results);
-
-  getReposByUsername('hackreactor', (data) => {
-    console.log("Retrieved data");
+app.post('/repos', function(req, res) {
+  getReposByUsername(req.body.username, data => {
+    console.log('saving repos data');
     save(data);
-  });
-  res.end('201 OK');
+  })
 });
 
+// This route should send back the top 25 repos
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
-  console.log('/repos GET Request Log', req);
-  res.end('200 OK');
+  // TODO
+  // console.log('GET REQ LOG', req);
 });
 
 let port = 1128;

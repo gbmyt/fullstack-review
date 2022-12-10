@@ -4,6 +4,8 @@ import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
 
+var getReposByUsername = require('../../helpers/github').getReposByUsername;
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -13,15 +15,18 @@ class App extends React.Component {
 
   }
 
-  search (term, cb) {
+  search (term) {
     console.log(`${term} was searched`);
 
     $.ajax({
       url: '/repos',
       method: 'POST',
-      success: function(msg) {
-        cb(term);
-        console.log('Post Success!');
+      data: { username: term },
+      // body: term,
+      // contentType: "application/json",
+      dataType: "json",
+      success: function(status) {
+        console.log('POST RES', status);
       },
       error: function(err) {
         console.log('Post Error: ', err);
