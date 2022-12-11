@@ -9,13 +9,8 @@ var getTopRepos = require('../database/index').getTopRepos;
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res, next) => {
-  console.log('Welcome home');
   getTopRepos((repos) => {
-    // display them on the in repo list component
-    // console.log('Count', Object.keys(repos).length);
-    repos.forEach(repo => {
-      console.log(repo.id, 'stargazers', repo.stargazers_count)
-    })
+    console.log('Fetching Top Repos');
   });
   next();
 });
@@ -37,10 +32,8 @@ app.post('/repos', function(req, res) {
 
 // This route should send back the top 25 repos
 app.get('/repos', function (req, res) {
-  var data = getTopRepos((data) => {
-    data.forEach((repo) => {
-      console.log('#', repo.id);
-    })
+  getTopRepos((repos) => {
+    res.send({data: repos});
   });
 });
 

@@ -12,6 +12,24 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+  }
+
+  // want to set state here but not sure how
+  componentDidMount() {
+    $.ajax({
+      url: '/repos',
+      method: "GET",
+      success: function(repos) {
+
+        if (repos.data.length > 0) {
+          this.setState({ repos: repos.data });
+          console.log('Updated Repos', this.state.repos.length);
+        }
+      }.bind(this),
+      error: function(err) {
+        console.log('Err?', err);
+      }.bind(this)
+    });
 
   }
 
@@ -22,8 +40,6 @@ class App extends React.Component {
       url: '/repos',
       method: 'POST',
       data: { username: term },
-      // body: term,
-      // contentType: "application/json",
       dataType: "json",
       success: function(status) {
         console.log('POST RES', status);
