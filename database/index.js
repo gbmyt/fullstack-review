@@ -110,10 +110,31 @@ let save = (userRepos) => {
   repos.forEach(repo => {
     let currentRepo = new Repo(repo);
     // console.log('Current Repo ID #', repo.id);
-    currentRepo.save();
+
+    currentRepo.save(function (err) {
+      if (err) return handleError(err);
+      console.log('done saving');
+    });
   });
 
-  console.log('done saving');
 }
 
+let getTopRepos = (cb) => {
+  Repo.find({}, (err, data) => {
+    data.sort((a, b) => {
+      // condition: sort on stargazers_count
+      if (a.stargazers_count > b.stargazers_count) {
+        return -1;
+      } else if (a.stargazers_count < b.stargazers_count) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    cb(data.slice(0,25));
+  });
+};
+
 module.exports.save = save;
+module.exports.getTopRepos = getTopRepos;

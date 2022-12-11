@@ -3,6 +3,7 @@ let app = express();
 
 var getReposByUsername = require('../helpers/github').getReposByUsername;
 var save = require('../database/index').save;
+var getTopRepos = require('../database/index').getTopRepos;
 
 // app.use(express.json()); // used more frequently, research this
 app.use(express.urlencoded({ extended: true }))
@@ -24,8 +25,11 @@ app.post('/repos', function(req, res) {
 
 // This route should send back the top 25 repos
 app.get('/repos', function (req, res) {
-  // TODO
-  // console.log('GET REQ LOG', req);
+  var data = getTopRepos((data) => {
+    data.forEach((repo) => {
+      console.log('#', repo.id);
+    })
+  });
 });
 
 let port = 1128;
