@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// process.env.DATABASE_URL = 'mongodb://localhost/fetcher'; ??
 mongoose.connect('mongodb://localhost/fetcher');
 
 // Mongoose Repos Schema

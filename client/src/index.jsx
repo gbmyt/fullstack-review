@@ -22,14 +22,12 @@ class App extends React.Component {
 
         if (repos.data.length > 0) {
           this.setState({ repos: repos.data });
-          console.log('Updated Repos', this.state.repos.length);
         }
       }.bind(this),
       error: function(err) {
         console.log('Err?', err);
       }.bind(this)
     });
-
   }
 
   search (term) {
@@ -41,12 +39,16 @@ class App extends React.Component {
       method: 'POST',
       data: { username: term },
       dataType: "json",
-      success: function(status) {
-        console.log('POST RES', status);
-      },
+      success: function(repos, status) {
+
+        if (repos.data.length > 0) {
+          this.setState({ repos: repos.data });
+          console.log(`There are ${ this.state.repos.length } repos`);
+        }
+      }.bind(this),
       error: function(err) {
         console.log('Post Error: ', err);
-      }
+      }.bind(this)
     });
   }
 

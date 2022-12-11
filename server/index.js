@@ -9,7 +9,7 @@ var getTopRepos = require('../database/index').getTopRepos;
 app.use(express.urlencoded({ extended: true }))
 
 app.get('/', (req, res, next) => {
-  getTopRepos((repos) => {
+  var data = getTopRepos((repos) => {
     console.log('Fetching Top Repos');
   });
   next();
@@ -24,9 +24,10 @@ app.use('/', express.static('client/dist'));
 // and get the repo information from the github API, then
 // save the repo information in the database
 app.post('/repos', function(req, res) {
-  getReposByUsername(req.body.username, data => {
+  getReposByUsername(req.body.username, repos => {
     console.log('saving repos');
-    save(data);
+    save(repos);
+    res.send({ data: repos });
   })
 });
 
@@ -37,9 +38,11 @@ app.get('/repos', function (req, res) {
   });
 });
 
-let port = 1128;
+process.env.PORT = 3000;
+const PORT = process.env.PORT || 1128;
 
-app.listen(port, function() {
-  console.log(`listening on port ${port}`);
+app.listen(PORT, function() {
+  console.log(`listening on port ${PORT}`);
+  // console.log(`ENV VARS`, process.env);
 });
 
