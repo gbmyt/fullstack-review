@@ -1,12 +1,6 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
-// main().catch(err => console.log(err));
-
-// async function main() {
-//   await mongoose.connect('mongodb://localhost/fetcher');
-// }
-
 // Mongoose Repos Schema
 let repoSchema = mongoose.Schema({
   id: { type: Number, unique: true, required: true },
@@ -104,25 +98,20 @@ let Repo = mongoose.model('Repo', repoSchema);
 let save = (userRepos) => {
   let repos = userRepos;
 
-  // console.log('repos', repos[0].id);
-  // console.log('repos', Object.keys(repos[0]));
-
   repos.forEach(repo => {
     let currentRepo = new Repo(repo);
-    // console.log('Current Repo ID #', repo.id);
 
     currentRepo.save(function (err) {
       if (err) return handleError(err);
-      console.log('done saving');
     });
   });
-
+  console.log('done saving');
 }
 
 let getTopRepos = (cb) => {
   Repo.find({}, (err, data) => {
     data.sort((a, b) => {
-      // condition: sort on stargazers_count
+      // sort on stargazers_count
       if (a.stargazers_count > b.stargazers_count) {
         return -1;
       } else if (a.stargazers_count < b.stargazers_count) {

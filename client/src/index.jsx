@@ -14,7 +14,6 @@ class App extends React.Component {
     }
   }
 
-  // want to set state here but not sure how
   componentDidMount() {
     $.ajax({
       url: '/repos',
@@ -36,6 +35,7 @@ class App extends React.Component {
   search (term) {
     console.log(`${term} was searched`);
 
+    // send username along with /repos post request
     $.ajax({
       url: '/repos',
       method: 'POST',

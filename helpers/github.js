@@ -12,11 +12,11 @@ let getReposByUsername = (username, cb) => {
 
   axios.get(options.url + `/${username}/repos`, options)
     .then(response => {
-      console.log('got repos by username');
+      console.log(`fetching ${username}'s repos from github`);
       cb(response.data);
     })
     .catch(err => {
-      console.log('helpers/github.js Caught an Error!', err);
+      console.log('Error fetching repos from github', err);
     });
 }
 
