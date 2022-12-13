@@ -33,7 +33,7 @@ class App extends React.Component {
   search (term) {
     console.log(`${term} was searched`);
 
-    // send username along with /repos post request
+    // send username along with /repos post request.
     $.ajax({
       url: '/repos',
       method: 'POST',
