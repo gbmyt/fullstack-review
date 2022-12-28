@@ -4,6 +4,7 @@ const path = require('path');
 
 const getReposByUsername = require('../helpers/github').getReposByUsername;
 const dbSave = require('../database/index').dbSave;
+const fetchTopRepos = require('../database/index').fetchTopRepos;
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,8 +30,16 @@ app.post('/repos', function (req, res) {
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
   // This route should send back the top 25 repos
+  fetchTopRepos((err, repos) => {
+    if (err) {
+      console.log(err);
+      res.status(res.statusCode).send(err);
+    } else {
+      // console.log('Fetch Repos', repos);
+      res.status(res.statusCode).send(repos);
+    }
+  });
 });
 
 let port = 1128;

@@ -8,6 +8,7 @@ let repoSchema = mongoose.Schema({
     unique: true
   },
   name: String,
+  owner: String,
   url: String,
   description: String,
   stargazers_count: Number,
@@ -19,11 +20,14 @@ const Repo = mongoose.model('Repo', repoSchema);
 
 // This should save a repo or repos to the MongoDB
 let dbSave = async (repos) => {
+  await Repo.syncIndexes();
+
   repos.map(async repo => {
     repo = new Repo({
       id: repo.id,
       name: repo.name,
-      url: repo.url,
+      owner: repo.owner.login,
+      url: repo.html_url,
       description: repo.description,
       stargazers_count: repo.stargazers_count,
       created_at: repo.created_at,
@@ -41,4 +45,18 @@ let dbSave = async (repos) => {
   });
 }
 
+let fetchTopRepos = async (cb) => {
+  // get top 25 repos
+  try {
+    let topRepos = await Repo.find({}).sort({ stargazers_count: -1 }).limit(25);
+    cb(null, topRepos);
+  } catch (err) {
+    console.log('Error Fetching from DB', err);
+    cb(err)
+  } finally {
+    console.log('Got Top 25 Repos');
+  }
+};
+
 module.exports.dbSave = dbSave;
+module.exports.fetchTopRepos = fetchTopRepos;
