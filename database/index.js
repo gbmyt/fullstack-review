@@ -15,12 +15,22 @@ let repoSchema = mongoose.Schema({
   updated_at: Date,
 });
 
-let Repo = mongoose.model('Repo', repoSchema);
+const Repo = mongoose.model('Repo', repoSchema);
 
-let save = (/* TODO */) => {
-  // TODO: Your code here
-  // This function should save a repo or repos to
-  // the MongoDB
+// This should save a repo or repos to the MongoDB
+let dbSave = async (repos) => {
+  repos.map(async repo => {
+    repo = new Repo({
+      id: repo.id,
+      name: repo.name,
+      url: repo.url,
+      description: repo.description,
+      stargazers_count: repo.stargazers_count,
+      created_at: repo.created_at,
+      updated_at: repo.updated_at,
+    });
+    await repo.save();
+  });
 }
 
-module.exports.save = save;
+module.exports.dbSave = dbSave;
