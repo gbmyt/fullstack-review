@@ -1,17 +1,33 @@
 const express = require('express');
 let app = express();
 const path = require('path');
-// TODO - your code here!
+
+const getReposByUsername = require('../helpers/github').getReposByUsername;
+const dbSave = require('../database/index').dbSave;
+
 // Set up static file service for files in the `client/dist` directory.
 // Webpack is configured to generate files in that directory and
 // this server must serve those files when requested.
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+app.use(express.urlencoded({ extended: true }));
+
+// This route should take the github username provided
+// and get the repo information from the github API, then
+// save the repo information in the database
 app.post('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
+  getReposByUsername(req.body.username, async (err, repos) => {
+    if (err) {
+      console.log(err);
+      res.status(res.statusCode).send(err);
+    } else {
+      console.log('Got repos', repos.data[0].id);
+      await dbSave(repos.data);
+      console.log('Saved repos');
+      res.sendStatus(res.statusCode);
+    }
+  });
+
 });
 
 app.get('/repos', function (req, res) {
