@@ -29,14 +29,13 @@ app.post('/repos', function (req, res) {
   });
 });
 
+// This route should send back the top 25 repos
 app.get('/repos', function (req, res) {
-  // This route should send back the top 25 repos
   fetchTopRepos((err, repos) => {
     if (err) {
       console.log(err);
       res.status(res.statusCode).send(err);
     } else {
-      // console.log('Fetch Repos', repos);
       res.status(res.statusCode).send(repos);
     }
   });

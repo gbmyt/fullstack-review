@@ -45,8 +45,8 @@ let dbSave = async (repos) => {
   });
 }
 
+// get top 25 repos
 let fetchTopRepos = async (cb) => {
-  // get top 25 repos
   try {
     let topRepos = await Repo.find({}).sort({ stargazers_count: -1 }).limit(25);
     cb(null, topRepos);
