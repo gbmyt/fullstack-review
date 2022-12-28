@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Search = (props) => {
+const Search = ({ onSearch }) => {
   const [term, setTerm] = useState('');
 
   const onChange = (e) => {
@@ -8,7 +8,7 @@ const Search = (props) => {
   };
 
   const search = () => {
-    props.onSearch(term);
+    onSearch(term);
   };
 
   return (<div>
@@ -16,6 +16,6 @@ const Search = (props) => {
     Enter a github username: <input value={term} onChange={onChange}/>
     <button onClick={search}> Add Repos </button>
   </div>)
-}
+};
 
 export default Search;
