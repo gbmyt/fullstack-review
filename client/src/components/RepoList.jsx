@@ -1,27 +1,25 @@
 import React from 'react';
-import RepoListRow from './RepoListRow.jsx';
+import RepoListEntry from './RepoListEntry.jsx';
 
-const RepoList = (props) => (
-  <div>
-    <h4> Repo List Component </h4>
-    There are {props.repos.length} repos.
-    <hr/>
-
-    <table>
-      <tbody>
-        <tr>
-          <th>Repo</th>
-          <th>User</th>
-          <th>Stargazers</th>
-        </tr>
-
-        { props.repos ? props.repos.map(repo =>
-          <RepoListRow key={repo.id} repo={repo}/>
-        ) : null }
-
-      </tbody>
-    </table>
-  </div>
-)
+const RepoList = ({ repos }) => {
+  if (!repos) {
+    return (<h3>Nothing to see here.</h3>)
+  } else {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Repo Name</th>
+            <th>Github User</th>
+            <th>Popularity</th>
+          </tr>
+        </thead>
+        <tbody>
+          {repos.map(repo => <RepoListEntry repo={repo} key={repo._id} />)}
+        </tbody>
+      </table>
+    )
+  }
+}
 
 export default RepoList;

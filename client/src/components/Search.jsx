@@ -1,31 +1,21 @@
-import React from 'react';
-import $ from 'jquery';
+import React, { useState } from 'react';
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      term: ''
-    }
-  }
+const Search = ({ onSearch }) => {
+  const [term, setTerm] = useState('');
 
-  onChange (e) {
-    this.setState({
-      term: e.target.value
-    });
-  }
+  const onChange = (e) => {
+    setTerm(e.target.value);
+  };
 
-  search() {
-    this.props.onSearch(this.state.term);
-  }
+  const search = () => {
+    onSearch(term);
+  };
 
-  render() {
-    return (<div>
-      <h4>Add more repos!</h4>
-      Enter a github username: <input value={this.state.term} onChange={this.onChange.bind(this)}/>
-      <button onClick={this.search.bind(this)}> Add Repos </button>
-    </div>)
-  }
-}
+  return (<div>
+    <h4>Add more repos!</h4>
+    Enter a github username: <input value={term} onChange={onChange}/>
+    <button onClick={search}> Add Repos </button>
+  </div>)
+};
 
 export default Search;
