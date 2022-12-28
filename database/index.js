@@ -29,7 +29,15 @@ let dbSave = async (repos) => {
       created_at: repo.created_at,
       updated_at: repo.updated_at,
     });
-    await repo.save();
+    try {
+      await repo.save();
+    } catch (err) {
+      if (err.code && err.code == 11000) {
+        console.log(`Error Saving Duplicate Repo #${repo.id}`);
+      } else {
+        console.log('Error Saving to DB');
+      }
+    }
   });
 }
 

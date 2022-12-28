@@ -17,7 +17,6 @@ let getReposByUsername = async (username, cb) => {
 
   try {
     const repos = await axios.get(options.url + `/${username}/repos`, options);
-    console.log('repos', repos);
     cb(null, repos);
   } catch (err) {
     cb(err);

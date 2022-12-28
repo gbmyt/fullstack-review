@@ -5,12 +5,12 @@ const path = require('path');
 const getReposByUsername = require('../helpers/github').getReposByUsername;
 const dbSave = require('../database/index').dbSave;
 
+app.use(express.urlencoded({ extended: true }));
+
 // Set up static file service for files in the `client/dist` directory.
 // Webpack is configured to generate files in that directory and
 // this server must serve those files when requested.
 app.use(express.static(path.join(__dirname, '../client/dist')));
-
-app.use(express.urlencoded({ extended: true }));
 
 // This route should take the github username provided
 // and get the repo information from the github API, then
@@ -18,16 +18,14 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/repos', function (req, res) {
   getReposByUsername(req.body.username, async (err, repos) => {
     if (err) {
-      console.log(err);
+      console.log('Error Getting Repos', err);
       res.status(res.statusCode).send(err);
     } else {
-      console.log('Got repos', repos.data[0].id);
       await dbSave(repos.data);
       console.log('Saved repos');
       res.sendStatus(res.statusCode);
     }
   });
-
 });
 
 app.get('/repos', function (req, res) {
